@@ -60,7 +60,7 @@ static uint8_t sendMessageToIf2(struct Message* message, struct Interface* iface
 {
     iface=iface;
     uint32_t nonce = Endian_bigEndianToHost32(((uint32_t*)message->bytes)[0]);
-    printf("sent message -->  nonce=%d\n", nonce);
+    printf("sent message -->  nonce=%d nonceBytes=%.2x%.2x%.2x%.2x\n", nonce, message->bytes[0], message->bytes[1], message->bytes[2], message->bytes[3]);
     assert(message->length + message->padding <= BUFFER_SIZE);
     if2->receiveMessage(message, if2);
     return Error_NONE;
@@ -70,7 +70,7 @@ static uint8_t sendMessageToIf1(struct Message* message, struct Interface* iface
 {
     iface=iface;
     uint32_t nonce = Endian_bigEndianToHost32(((uint32_t*)message->bytes)[0]);
-    printf("sent message <--  nonce=%d\n", nonce);
+    printf("sent message -->  nonce=%d nonceBytes=%.2x%.2x%.2x%.2x\n", nonce, message->bytes[0], message->bytes[1], message->bytes[2], message->bytes[3]);
     assert(message->length + message->padding <= BUFFER_SIZE);
     if1->receiveMessage(message, if1);
     return Error_NONE;
