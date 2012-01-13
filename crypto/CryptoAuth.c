@@ -368,6 +368,7 @@ static uint8_t encryptHandshake(struct Message* message, struct Wrapper* wrapper
     assert(message->padding >= sizeof(union Headers_CryptoAuth) || !"not enough padding");
 
     Message_shift(message, sizeof(union Headers_CryptoAuth));
+    uint8_t* messagePtr = message->bytes;
 
     union Headers_CryptoAuth* header = (union Headers_CryptoAuth*) message->bytes;
 
@@ -497,6 +498,8 @@ static uint8_t encryptHandshake(struct Message* message, struct Wrapper* wrapper
 
     // Shift it back -- encryptRndNonce adds 16 bytes of authenticator.
     Message_shift(message, Headers_CryptoAuth_SIZE - 32 - 16);
+
+    assert(messagePtr == message->bytes);
 
     return wrapper->wrappedInterface->sendMessage(message, wrapper->wrappedInterface);
 }
